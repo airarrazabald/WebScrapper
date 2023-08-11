@@ -23,7 +23,7 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
-        run: dotnet build -o ".\WebScrapperWorker\WebScrapperWorker.csproj" --c Release
+        run: dotnet build -o ".\WebScrapperWorker\WebScrapperWorker.csproj" -c Release
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
