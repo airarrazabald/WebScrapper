@@ -7,19 +7,16 @@ namespace WebScrapperWorker.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IBackgroundJobClient _backgroundJobClient;
-        private readonly IRecurringJobManager _recurringJobManager;
 
-        public IndexModel(ILogger<IndexModel> logger, IBackgroundJobClient backgroundJobClient, IRecurringJobManager recurringJobManager)
+        public IndexModel(ILogger<IndexModel> logger, IBackgroundJobClient backgroundJobClient)
         {
             _logger = logger;
             _backgroundJobClient = backgroundJobClient;
-            _recurringJobManager = recurringJobManager;
         }
 
         public void OnGet()
         {
             _backgroundJobClient.Enqueue(() => CalledFromBackground());
-            _recurringJobManager.AddOrUpdate("MyJOb", () => Console.WriteLine("Hola Mundo 111"), "* * * * *");
         }
 
         public void CalledFromBackground()
@@ -28,7 +25,7 @@ namespace WebScrapperWorker.Pages
             var number2 = 2;
 
             var sum = numbre1 + number2;
-
+            _logger.LogDebug($"The sum of two Number is {sum}");
             Console.WriteLine($"The sum of two Number is {sum}");
         }
     }

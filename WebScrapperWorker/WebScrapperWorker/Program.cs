@@ -1,16 +1,21 @@
 using Hangfire;
 using Hangfire.Dashboard;
 using Hangfire.MemoryStorage;
- 
+using WebScrapperWorker.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddHangfire(c => c.UseMemoryStorage());
 builder.Services.AddHangfireServer();
+builder.Services.AddScoped<IServiceManagement, ServiceManagement>();
 
 JobStorage.Current = new MemoryStorage();
 
+
+
+RecurringJob.AddOrUpdate<IServiceManagement>("GetMessage", x => x.GetMessage(), cronExpression: Cron.Hourly);
 var app = builder.Build();
 
 
