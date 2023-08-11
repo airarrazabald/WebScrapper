@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./WebScrapperWorker
 
     steps:
       - uses: actions/checkout@v2
@@ -23,10 +25,12 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet
-        run: dotnet build -o ".\WebScrapperWorker\WebScrapperWorker.csproj" -c Release
+        run: dotnet build -o ".\WebScrapperWorker.csproj" -c Release
+        working-directory: ${{env.working-directory}}
 
       - name: dotnet publish
-        run: dotnet publish -o ".\WebScrapperWorker" -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        working-directory: ${{env.working-directory}}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
