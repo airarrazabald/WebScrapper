@@ -1,4 +1,5 @@
 using Hangfire;
+using Hangfire.Dashboard;
 using Hangfire.MemoryStorage;
  
 var builder = WebApplication.CreateBuilder(args);
@@ -6,11 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddHangfire(c => c.UseMemoryStorage());
+builder.Services.AddHangfireServer();
 
 JobStorage.Current = new MemoryStorage();
 
 var app = builder.Build();
-app.UseHangfireServer();
 
 
 // Configure the HTTP request pipeline.
@@ -29,6 +30,9 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
-app.MapHangfireDashboard();
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    Authorization = new IDashboardAuthorizationFilter[0]
+});
 
 app.Run();

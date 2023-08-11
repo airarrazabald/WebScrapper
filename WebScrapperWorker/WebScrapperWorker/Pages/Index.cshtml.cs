@@ -1,7 +1,5 @@
 ﻿using Hangfire;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Runtime.CompilerServices;
 
 namespace WebScrapperWorker.Pages
 {
